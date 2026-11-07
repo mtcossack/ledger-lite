@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#172b34">
+  <meta name="description" content="A shared, private family ledger for two adults.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/styles.css">
+  <title>Ledger Lite</title>
+  <script defer src="/app.js"></script>
+</head>
+<body>
+  <div id="login" class="login-shell" hidden>
+    <div class="login-card">
+      <div class="mark" aria-hidden="true">L</div>
+      <p class="eyebrow">YOUR PRIVATE FAMILY SPACE</p>
+      <h1>Ledger Lite</h1>
+      <p class="muted">A simple shared ledger for your household. Sign in with the account created during setup.</p>
+      <form id="login-form" class="form-stack">
+        <label>Email <input id="email" type="email" name="email" required autocomplete="username" maxlength="254" placeholder="you@example.com"></label>
+        <label>Password <input id="password" type="password" name="password" required autocomplete="current-password" placeholder="Your password"></label>
+        <button class="primary" type="submit">Sign in</button>
+        <p id="login-error" class="error" role="alert" hidden></p>
+      </form>
+      <p class="hint">There is no public registration. The owner creates the two accounts during setup.</p>
+    </div>
+  </div>
+
+  <div id="app" hidden>
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="brand"><div class="mark small">L</div><span>Ledger <strong>Lite</strong></span></div>
+        <div class="header-tools">
+          <span id="greeting" class="user-name"></span>
+          <button id="sign-out" class="text-button" type="button">Sign out</button>
+        </div>
+      </div>
+    </header>
+    <main class="shell">
+      <div class="page-title">
+        <div><p class="eyebrow">SHARED HOUSEHOLD LEDGER</p><h1>Everyone, in balance.</h1><p class="muted">A clear record, shared between both adults.</p></div>
+        <button id="export" class="secondary" type="button">Export CSV <span aria-hidden="true">↗</span></button>
+      </div>
+      <section class="people-panel" aria-labelledby="people-heading">
+        <div class="section-top"><h2 id="people-heading">People</h2><button id="add-person-toggle" class="text-button plus" type="button">+ Add person</button></div>
+        <form id="add-person-form" class="inline-form" hidden><label class="sr-only" for="new-person">Person’s name</label><input id="new-person" maxlength="60" placeholder="Name" required><button class="primary" type="submit">Add</button><button id="add-person-cancel" class="secondary" type="button">Cancel</button></form>
+        <div id="people" class="people-tabs" role="group" aria-label="Select person"></div>
+        <p id="no-people" class="empty" hidden>No people yet. Add someone to begin tracking balances.</p>
+      </section>
+      <div id="ledger-content" hidden>
+        <div class="selected-title"><h2 id="selected-name"></h2><button id="rename-person" class="text-button" type="button">Rename</button></div>
+        <section id="balance-cards" class="balance-grid" aria-label="Current balances"></section>
+        <div class="content-grid">
+          <section class="panel" aria-labelledby="entry-heading">
+            <div class="section-top"><div><p class="eyebrow">NEW TRANSACTION</p><h2 id="entry-heading">Update balance</h2></div></div>
+            <form id="entry-form" class="form-stack">
+              <label>Balance type
+                <select id="entry-category"><option value="money">Money</option><option value="points">Points</option><option value="screen">Screen time</option></select>
+              </label>
+              <fieldset class="direction-select"><legend>Direction</legend><label><input name="direction" type="radio" value="add" checked> <span>+ Add</span></label><label><input name="direction" type="radio" value="subtract"> <span>− Subtract</span></label></fieldset>
+              <label><span id="amount-label">Amount ($)</span><input id="entry-amount" type="text" inputmode="decimal" autocomplete="off" placeholder="0.00" required></label>
+              <label>Reason / note <input id="entry-note" type="text" maxlength="180" minlength="2" placeholder="What was this for?" required></label>
+              <button class="primary" type="submit">Save transaction</button>
+            </form>
+            <p class="hint">Transactions are retained as history. To correct an entry, record an opposite adjustment with an explanation.</p>
+          </section>
+          <section class="panel history-panel" aria-labelledby="history-heading">
+            <div class="section-top"><div><p class="eyebrow">ACTIVITY LOG</p><h2 id="history-heading">Transaction history</h2></div><select id="history-filter" aria-label="Filter category"><option value="all">All types</option><option value="money">Money</option><option value="points">Points</option><option value="screen">Screen time</option></select></div>
+            <div id="entries" class="entries"></div>
+            <p id="no-entries" class="empty" hidden>No transactions yet for this person.</p>
+          </section>
+        </div>
+      </div>
+      <p id="app-error" class="error" role="alert" hidden></p>
+      <footer>Ledger Lite · Your own deployment · Your own database</footer>
+    </main>
+  </div>
+  <div id="loading" class="loading-state" role="status">Opening Ledger Lite…</div>
+</body>
+</html>
